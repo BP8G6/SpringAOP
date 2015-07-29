@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
+    <!-- bean definitions here -->
+
+	<bean id="newsDAOayzrProxy" class="com.vamsee.spring.ioc.dao.impl.NewsDAOImpl"/>
+	
+	<bean id="genericService123rProxy" class="com.vamsee.spring.ioc.service.impl.GenericServiceImpl">
+	<property name="newsDAO" ref="newsDAOayz"></property>
+	</bean>
+<!-- Interceptors Beans -->
+	<bean id="myMethodBeforeInterceptor" class="com.vamsee.spring.aop.intercetors.MethodBeforeInteceptor"/>	
+	<bean id="myMethodAfterInterceptor" class="com.vamsee.spring.aop.intercetors.MethodAfterInterceptor"/>	
+	<bean id="myMethodAtException" class="com.vamsee.spring.aop.intercetors.MethodAtException"/>	
+	<bean id="myMethodAllRoundInterceptor" class="com.vamsee.spring.aop.intercetors.MyMethodAroundInterceptor"/>
+<!--  My proxy beans -->
+	<bean id="newsDAOayz" class="org.springframework.aop.framework.ProxyFactoryBean">
+	<property name="target" ref="newsDAOayzrProxy"/>
+	<property name="interceptorNames">
+	<list>
+	<value>myMethodAllRoundInterceptor</value>
+	</list>
+	</property>
+	</bean>
+
+	<bean id="genericService123" class="org.springframework.aop.framework.ProxyFactoryBean">
+	<property name="target" ref="genericService123rProxy"/>
+	<property name="interceptorNames">
+	<list>
+	<value>myMethodAllRoundInterceptor</value>
+	</list>
+	</property>
+	</bean>
+
+
+
+
+
+
+
+</beans>
